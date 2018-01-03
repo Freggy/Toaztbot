@@ -1,0 +1,19 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "ZXja1pB/YvDYcNpkp7AtOm1mhgk=",
+			"path": "github.com/google/go-querystring/query",
+			"revision": "53e6ce116135b80d037921a7fdd5138cf32d7a8a",
+			"revisionTime": "2017-01-11T10:11:55Z"
+		},
+		{
+			"checksumSHA1": "bz2WRYzc09UA4nar1SSB+zd50cU=",
+			"path": "github.com/knspriggs/go-twitch",
+			"revision": "1ddbb1bbce1c5687c945a6cab5327ca55b548e01",
+			"revisionTime": "2017-08-20T21:01:01Z"
+		}
+	],
+	"rootPath": "github.com/Freggy/toaztbot"
+}
