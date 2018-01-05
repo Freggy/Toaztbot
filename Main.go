@@ -18,15 +18,15 @@ var (
 
 func main() {
     
-    if len(os.Args) < 4 {
+    if len(os.Args) < 5 {
         fmt.Println("Too few arguments. Expecting: <twitchToken> <discordToken> <twitchChannel> <discordChannel>")
         return
     }
     
-    twitchToken    = os.Args[0]
-    discordToken   = os.Args[1]
-    twitchChannel  = os.Args[2]
-    discordChannel = os.Args[3]
+    twitchToken    = os.Args[1]
+    discordToken   = os.Args[2]
+    twitchChannel  = os.Args[3]
+    discordChannel = os.Args[4]
     
     twitchSession       := twitch.NewClient(twitchToken)
     discordSession, err := discordgo.New("Bot " + discordToken)
@@ -45,7 +45,7 @@ func main() {
     }
     
 	fmt.Println("Starting to watch for changes...")
-	ticker := time.NewTicker(1 * time.Second)
+	ticker := time.NewTicker(2 * time.Second)
 	
 	for {
 		select {
