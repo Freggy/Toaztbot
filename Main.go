@@ -2,10 +2,10 @@ package main
 
 import (
     "fmt"
-    "github.com/onestay/go-new-twitch"
-    "github.com/bwmarrin/discordgo"
     "os"
     "time"
+    "github.com/onestay/go-new-twitch"
+    "github.com/bwmarrin/discordgo"
 )
 
 var (
@@ -13,11 +13,12 @@ var (
     discordToken   string
     twitchChannel  string
     discordChannel string
+    isRunning      bool
 )
 
 
 func main() {
-    
+    isRunning = false
     if len(os.Args) < 5 {
         fmt.Println("Too few arguments. Expecting: <twitchToken> <discordToken> <twitchChannel> <discordChannel>")
         return
@@ -61,9 +62,14 @@ func checkStream(tc *twitch.Client, ds *discordgo.Session) {
 	streamData, err := tc.GetStreams(twitch.GetStreamsInput{UserLogin: []string{twitchChannel}})
 	
 	if err == nil {
-        if len(streamData) >= 1 {
+	    length := len(streamData)
+        if length >= 1 && !isRunning {
+            isRunning = true
             fmt.Println("Channel is online, sending message to Discord channel...")
             ds.ChannelMessageSend(discordChannel, "Ich bin jetzt Live auf Twitch: \n`" + streamData[0].Title + "`\nhttps://www.twitch.tv/" + twitchChannel)
+        } else if length == 0 {
+            fmt.Println("Stream is offline.")
+            isRunning = false
         }
     } else {
         fmt.Println(err)
