@@ -45,7 +45,7 @@ func main() {
     }
     
 	fmt.Println("Starting to watch for changes...")
-	ticker := time.NewTicker(2 * time.Second)
+	ticker := time.NewTicker(10 * time.Second)
 	
 	for {
 		select {
@@ -60,12 +60,14 @@ func main() {
 func checkStream(tc *twitch.Client, ds *discordgo.Session) {
 	streamData, err := tc.GetStreams(twitch.GetStreamsInput{UserLogin: []string{twitchChannel}})
 	
-	if err != nil {
-		panic(err)
-	}
-	
-	if len(streamData) >= 1 {
-		fmt.Println("Channel is online, sending message to Discord channel...")
-        ds.ChannelMessageSend(discordChannel, "Ich bin jetzt Live auf Twitch: \n`" + streamData[0].Title + "`\nhttps://www.twitch.tv/" + twitchChannel)
-	}
+	if err == nil {
+        if len(streamData) >= 1 {
+            fmt.Println("Channel is online, sending message to Discord channel...")
+            ds.ChannelMessageSend(discordChannel, "Ich bin jetzt Live auf Twitch: \n`" + streamData[0].Title + "`\nhttps://www.twitch.tv/" + twitchChannel)
+        }
+    } else {
+        fmt.Println(err)
+        fmt.Println("Trying again in 5 seconds...")
+        time.Sleep(5 * time.Second)
+    }
 }
